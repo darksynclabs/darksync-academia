@@ -286,6 +286,8 @@ h2.section-title .dim { color: var(--gray-warm); }
 }
 .nav-menu a:hover { color: var(--cream); }
 .nav-toggle { display: none; }
+/* CTA que solo aparece dentro del menú hamburguesa (oculto en desktop) */
+.nav-menu-cta { display: none; }
 
 /* -------------------- HERO -------------------- */
 .hero {
@@ -810,45 +812,128 @@ h2.section-title .dim { color: var(--gray-warm); }
   .classes-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 880px) {
+  /* --- HEADER: colapsa a hamburguesa --- */
   .nav-menu { display: none; }
+  .nav-cta { display: none; }              /* el CTA pasa al menú desplegable */
   .brand-mark { height: 34px; }
   .brand-name { font-size: 16px; }
   .nav-toggle {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 42px; height: 42px; border-radius: 50%;
+    width: 44px; height: 44px; border-radius: 50%;   /* área de toque ≥44px */
+    font-size: 18px; color: var(--cream);
     background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
   }
   /* menú móvil desplegable */
   .nav-menu.mobile-open {
-    display: flex; flex-direction: column; gap: 6px;
-    position: absolute; top: 78px; left: 24px; right: 24px;
-    padding: 16px;
-    background: rgba(10,8,8,0.96);
+    display: flex; flex-direction: column; gap: 4px;
+    position: absolute; top: 76px; left: 20px; right: 20px;
+    padding: 14px;
+    background: rgba(10,8,8,0.97);
     border: 1px solid var(--glass-border);
     border-radius: 20px;
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.5);
   }
-  .nav-menu.mobile-open a { padding: 10px 6px; }
+  .nav-menu.mobile-open a {
+    padding: 14px 12px;                     /* links cómodos de tocar */
+    font-size: 16px;
+    border-radius: 12px;
+  }
+  .nav-menu.mobile-open a:hover { background: rgba(255,255,255,0.04); }
+  /* CTA dentro del menú: píldora naranja a todo el ancho */
+  .nav-menu.mobile-open .nav-menu-cta {
+    display: block;
+    margin-top: 8px;
+    text-align: center;
+    color: #fff;
+    font-weight: 600;
+    background: var(--grad-orange);
+    box-shadow: 0 8px 22px rgba(245,74,0,0.35);
+  }
 
-  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  /* --- GRIDS: todo a una columna --- */
+  .about-grid { grid-template-columns: 1fr; gap: 30px; }
   .about-img { aspect-ratio: 16 / 11; }
   .diff-grid { grid-template-columns: 1fr; }
   .form-grid { grid-template-columns: 1fr; }
+
+  /* --- HERO --- */
   .hero-content { padding-top: 110px; }
   .hero-inner { gap: 28px; }
   .hero-stats { margin-top: 6px; flex-wrap: wrap; }
 }
 @media (max-width: 560px) {
-  .classes-grid { grid-template-columns: 1fr; }
+  /* --- Layout general --- */
   .container { padding: 0 18px; }
   .nav { padding: 0 18px; }
-  .footer-inner { flex-direction: column; align-items: flex-start; }
-  .btn { padding: 13px 20px; font-size: 14.5px; }
-  /* marca y CTA compactos para que entren sin desbordar */
+  section { padding: 64px 0; }                 /* aire entre secciones, sin apretar */
+
+  /* --- HEADER compacto --- */
   .brand-mark { height: 30px; }
-  .brand-name { font-size: 14.5px; letter-spacing: 0.12em; }
-  .nav-right { gap: 8px; }
-  .nav-cta { padding: 10px 15px; font-size: 13px; }
+  .brand-name { font-size: 15px; letter-spacing: 0.12em; }
+
+  /* --- HERO --- */
+  .hero { margin-top: -64px; }                 /* el header es más bajo en mobile */
+  .hero-content { padding: 100px 20px 56px; }
+  .hero h1 {
+    font-size: clamp(29px, 8.4vw, 38px);       /* entra sin desbordar ni cortarse */
+    line-height: 1.06;
+    max-width: 100%;
+    margin-bottom: 18px;
+    overflow-wrap: break-word;
+  }
+  .hero-sub { font-size: 16px; max-width: 100%; margin-bottom: 26px; }
+  /* botones del hero a todo el ancho, fáciles de tocar */
+  .hero-cta { width: 100%; gap: 12px; }
+  .hero-cta .btn { flex: 1 1 160px; justify-content: center; }
+  /* stats: que ocupen la fila sin encimarse */
+  .hero-stats { width: 100%; gap: 12px; }
+  .hero-stats .stat-card { flex: 1 1 0; min-width: 0; padding: 18px 20px; }
+  /* emblema un poco más alto para que el texto de abajo quede sobre zona oscura */
+  .hero-bg { object-position: center 32%; }
+
+  /* --- 8 CLASES: una sola columna --- */
+  .classes-grid { grid-template-columns: 1fr; gap: 14px; }
+  .class-card { min-height: 0; padding: 24px 22px; }
+  .class-card p { font-size: 15px; }
+
+  /* --- STACK: chips sin desbordar --- */
+  .chips { gap: 10px; }
+  .chip { font-size: 14px; padding: 10px 16px; }
+
+  /* --- DIFERENCIAL --- */
+  .diff-card { padding: 26px 22px; }
+  .diff-card p { font-size: 15px; }
+
+  /* --- QUIÉNES SOMOS: imagen y texto apilados (ya pasa a 1fr en ≤880) --- */
+  .about-stat { width: 100%; justify-content: center; }
+
+  /* --- PRECIO Y FORMULARIO: ancho completo, campos cómodos --- */
+  .price-card, .form-card { padding: 30px 22px; }
+  .form-card .btn, .price-card .btn { padding: 16px 20px; }   /* ≥44px de alto */
+  /* 16px evita el zoom automático de iOS al enfocar y mejora legibilidad */
+  .field input, .field textarea, .field select { font-size: 16px; padding: 14px 15px; }
+
+  /* --- FAQ: tap cómodo --- */
+  .faq-q { padding: 20px 20px; font-size: 16.5px; }
+  .faq-item.open .faq-a { padding: 0 20px 22px; }
+  .faq-a { font-size: 15.5px; }
+
+  /* --- FOOTER en vertical --- */
+  .footer-inner { flex-direction: column; align-items: flex-start; gap: 22px; }
+  .footer-links { gap: 18px 22px; }
+
+  /* botones generales: alto cómodo para el dedo */
+  .btn { padding: 14px 22px; font-size: 15px; }
+}
+
+/* Pantallas muy chicas (≤380px): marca aún más compacta, sin desbordes */
+@media (max-width: 380px) {
+  .brand-name { font-size: 14px; letter-spacing: 0.10em; }
+  .brand-mark { height: 28px; }
+  .hero-cta .btn { flex-basis: 100%; }         /* botones del hero apilados full-width */
+  .hero-stats .stat-card .num { font-size: 28px; }
 }
 
 /* accesibilidad: respetar reduce-motion */
@@ -883,6 +968,7 @@ h2.section-title .dim { color: var(--gray-warm); }
       <a href="#inicio">Inicio</a>
       <a href="#clases">Qué aprendés</a>
       <a href="#nosotros">Nosotros</a>
+      <a href="#formulario" class="nav-menu-cta">Quiero ser parte</a>
     </div>
     <!-- Acciones a la derecha -->
     <div class="nav-right">
@@ -906,7 +992,7 @@ h2.section-title .dim { color: var(--gray-warm); }
       <div class="reveal hero-copy">
         <h1>
           Construí una <span class="serif">agencia</span> de IA.
-          No solo la <span class="serif">imagines</span>.
+          No solo <span class="serif">imágenes</span>.
         </h1>
         <p class="hero-sub">
           Enseñamos todo lo que hacemos en DarkSync, paso a paso, con las
